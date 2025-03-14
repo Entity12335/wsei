@@ -6,7 +6,12 @@ public class chGravity : MonoBehaviour
     public GameObject Player;
     void Update()
     {
-        if (Player.GetComponent<PlayerController>().OverTag == "gChange")
+        ChG();
+    }
+
+    public void ChG()
+    {
+        if (Player.GetComponent<PlayerController>().isOverTrigerNYG)
         {
             Physics2D.gravity = new Vector2(0, (float)9.81);
         }
@@ -14,9 +19,5 @@ public class chGravity : MonoBehaviour
         {
             Physics2D.gravity = new Vector2(0, (float)-9.81);
         }
-    }
-
-    public void ChangeIt()
-    {
     }
 }
