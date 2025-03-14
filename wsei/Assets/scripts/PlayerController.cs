@@ -9,6 +9,7 @@ namespace Platformer
         public float movingSpeed;
         public float jumpForce;
         private float moveInput;
+        public GameManager GM;
 
         private bool facingRight = false;
         [HideInInspector]
@@ -27,7 +28,7 @@ namespace Platformer
         {
             rigidbody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            gameManager = GM.GetComponent<GameManager>();
         }
 
         private void FixedUpdate()
