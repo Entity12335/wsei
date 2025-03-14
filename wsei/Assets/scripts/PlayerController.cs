@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,18 +8,20 @@ namespace Platformer
     {
         public float movingSpeed;
         public float jumpForce;
+        public GameObject GM;
         private float moveInput;
 
         private bool facingRight = false;
         [HideInInspector]
         public bool deathState = false;
 
-        private bool isGrounded;
+        public bool isGrounded;
         public bool isOverLadder = false;
         public Transform groundCheck;
+        [SerializeField] private string groundTag = "Ground"; //Tag pod³ogi
 
         private Rigidbody2D rigidbody;
-        private Animator animator;
+        public Animator animator;
         private GameManager gameManager;
         
 
@@ -27,12 +29,7 @@ namespace Platformer
         {
             rigidbody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        }
-
-        private void FixedUpdate()
-        {
-            CheckGround();
+            gameManager = GM.GetComponent<GameManager>();
         }
 
         void Update()
@@ -42,11 +39,12 @@ namespace Platformer
                 moveInput = Input.GetAxis("Horizontal");
                 Vector3 direction = transform.right * moveInput;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, movingSpeed * Time.deltaTime);
-                animator.SetInteger("playerState", 1); // Turn on run animation
+                animator.SetTrigger("move"); // Turn on run animation
+                
             }
             else
             {
-                if (isGrounded) animator.SetInteger("playerState", 0); // Turn on idle animation
+                animator.ResetTrigger("move"); // Turn on idle animation
             }
             if (Input.GetButton("Vertical") && isOverLadder)
             {
@@ -54,18 +52,28 @@ namespace Platformer
                 Vector3 direction = transform.up * moveInput;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, movingSpeed * Time.deltaTime);
             }
-            if(Input.GetKeyDown(KeyCode.Space) && isGrounded && !isOverLadder)
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isOverLadder)
             {
                 rigidbody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-            }else 
-            if (!isGrounded)animator.SetInteger("playerState", 2); // Turn on jump animation
-            if (facingRight == false && moveInput > 0)
-            {
-                Flip();
             }
-            else if(facingRight == true && moveInput < 0)
+            else
             {
-                Flip();
+                if (!isGrounded)
+                {
+                    animator.SetTrigger("jump");
+                }
+                else if (isGrounded)
+                {
+                    animator.ResetTrigger("jump");
+                }
+                if (facingRight == false && moveInput > 0)
+                {
+                    Flip();
+                }
+                else if (facingRight == true && moveInput < 0)
+                {
+                    Flip();
+                }
             }
         }
 
@@ -77,11 +85,6 @@ namespace Platformer
             transform.localScale = Scaler;
         }
 
-        private void CheckGround()
-        {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, 0.2f);
-            isGrounded = colliders.Length > 1;
-        }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -104,6 +107,10 @@ namespace Platformer
                 isOverLadder = true;
                 rigidbody.linearVelocity = Vector2.zero; 
             }
+            else if (other.CompareTag(groundTag))
+            {
+                isGrounded = true;  // Resetujemy licznik skoków, gdy gracz dotknie ziemi
+            }
         }
         private void OnTriggerExit2D(Collider2D other)
         {
@@ -112,6 +119,10 @@ namespace Platformer
                 isOverLadder = false;
                 rigidbody.linearVelocity = Vector2.zero;
 
+            }
+            else if (other.CompareTag("Ground"))
+            {
+                isGrounded = false;
             }
         }
     }

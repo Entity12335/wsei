@@ -12,26 +12,27 @@ namespace Platformer
 
         public GameObject playerGameObject;
         private PlayerController playerController;
-        public GameObject deathPlayerPrefab;
-        public GameObject ball;
+        //public GameObject deathPlayerPrefab;
+        //public GameObject ball;
         
 
         void Start()
         {
-            playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+            playerController = GameObject.Find("player").GetComponent<PlayerController>();
         }
 
         void Update()
         {
             //coinText.text = coinsCounter.ToString();
-            if(playerController.deathState == true)
-            {
-                playerGameObject.SetActive(false);
-                GameObject deathPlayer = (GameObject)Instantiate(deathPlayerPrefab, playerGameObject.transform.position, playerGameObject.transform.rotation);
-                deathPlayer.transform.localScale = new Vector3(playerGameObject.transform.localScale.x, playerGameObject.transform.localScale.y, playerGameObject.transform.localScale.z);
-                playerController.deathState = false;
-                Invoke("ReloadLevel", 3);
-            }else if (playerController.isOverLadder)
+            //if(playerController.deathState == true)
+            //{
+            //    playerGameObject.SetActive(false);
+            //    GameObject deathPlayer = (GameObject)Instantiate(deathPlayerPrefab, playerGameObject.transform.position, playerGameObject.transform.rotation);
+            //    deathPlayer.transform.localScale = new Vector3(playerGameObject.transform.localScale.x, playerGameObject.transform.localScale.y, playerGameObject.transform.localScale.z);
+            //    playerController.deathState = false;
+            //    Invoke("ReloadLevel", 3);
+            //}else if (playerController.isOverLadder)
+            if (playerController.isOverLadder)
             {
                 playerController.GetComponent<Rigidbody2D>().gravityScale = 0;
             }
