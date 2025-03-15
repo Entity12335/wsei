@@ -16,14 +16,17 @@ namespace Platformer
         public bool deathState = false;
 
         public bool isGrounded;
+        public bool isOverTrigerNYG;
         public bool isOverLadder = false;
+        public bool isOverKCH = false;
+        public bool isOverc1 = false;
         public Transform groundCheck;
         [SerializeField] private string groundTag = "Ground"; //Tag pod³ogi
 
         private Rigidbody2D rigidbody;
         public Animator animator;
         private GameManager gameManager;
-        
+
 
         void Start()
         {
@@ -34,13 +37,13 @@ namespace Platformer
 
         void Update()
         {
-            if (Input.GetButton("Horizontal")) 
+            if (Input.GetButton("Horizontal"))
             {
                 moveInput = Input.GetAxis("Horizontal");
                 Vector3 direction = transform.right * moveInput;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, movingSpeed * Time.deltaTime);
                 animator.SetTrigger("move"); // Turn on run animation
-                
+
             }
             else
             {
@@ -60,11 +63,11 @@ namespace Platformer
             {
                 if (!isGrounded)
                 {
-                    animator.SetTrigger("jump");
+                    //animator.SetTrigger("jump");
                 }
                 else if (isGrounded)
                 {
-                    animator.ResetTrigger("jump");
+                    //animator.ResetTrigger("jump");
                 }
                 if (facingRight == false && moveInput > 0)
                 {
@@ -91,7 +94,9 @@ namespace Platformer
             if (other.gameObject.tag == "Enemy")
             {
                 deathState = true; // Say to GameManager that player is dead
-            }else{
+            }
+            else
+            {
                 deathState = false;
             }
         }
@@ -102,14 +107,27 @@ namespace Platformer
             {
                 gameManager.coinsCounter += 1;
                 Destroy(other.gameObject);
-            }else if (other.gameObject.tag == "ladder")
+            }
+            else if (other.gameObject.tag == "ladder")
             {
                 isOverLadder = true;
-                rigidbody.linearVelocity = Vector2.zero; 
+                rigidbody.linearVelocity = Vector2.zero;
             }
             else if (other.CompareTag(groundTag))
             {
                 isGrounded = true;  // Resetujemy licznik skoków, gdy gracz dotknie ziemi
+            }
+            else if (other.CompareTag("NYG"))
+            {
+                isOverTrigerNYG = true;
+            }
+            else if (other.CompareTag("keycholder"))
+            {
+                isOverKCH = true;
+            }
+            else if (other.CompareTag("camChange"))
+            {
+                isOverc1 = true;
             }
         }
         private void OnTriggerExit2D(Collider2D other)
@@ -124,6 +142,15 @@ namespace Platformer
             {
                 isGrounded = false;
             }
+            else if (other.CompareTag("NYG"))
+            {
+                isOverTrigerNYG = false;
+            }
+            else if (other.CompareTag("camChange"))
+            {
+                isOverc1 = false;
+            }
+
         }
     }
 }
