@@ -18,7 +18,7 @@ namespace Platformer
 
         void Start()
         {
-            playerController = GameObject.Find("player").GetComponent<PlayerController>();
+            playerController = playerGameObject.GetComponent<PlayerController>();
         }
 
         void Update()
@@ -38,7 +38,7 @@ namespace Platformer
             }
             else
             {
-                playerController.GetComponent<Rigidbody2D>().gravityScale = 1;
+                playerController.GetComponent<Rigidbody2D>().gravityScale = 3;
             }
 
         }

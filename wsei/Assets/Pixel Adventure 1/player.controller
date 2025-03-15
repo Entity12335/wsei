@@ -34,8 +34,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: Speed
+  - m_ConditionMode: 1
+    m_ConditionEvent: move
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6877856549508658510}
@@ -58,13 +58,7 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: isjumping
-    m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: Speed
-    m_EventTreshold: 0.01
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3632564831716448655}
   m_Solo: 0
@@ -110,7 +104,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isjumping
+    m_ConditionEvent: jump
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7498923371060317750}
@@ -135,14 +129,14 @@ AnimatorController:
   m_Name: player
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Speed
-    m_Type: 1
+  - m_Name: move
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isjumping
-    m_Type: 4
+  - m_Name: jump
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -228,16 +222,16 @@ AnimatorStateMachine:
     m_Position: {x: 270, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8608063632199266197}
-    m_Position: {x: 370, y: 190, z: 0}
+    m_Position: {x: 610, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3698124790674072019}
-    m_Position: {x: 380, y: 110, z: 0}
+    m_Position: {x: 720, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6877856549508658510}
     m_Position: {x: 310, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7498923371060317750}
-    m_Position: {x: 120, y: 120, z: 0}
+    m_Position: {x: 50, y: 80, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -6542631918563769752}
@@ -312,12 +306,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: isjumping
+  - m_ConditionMode: 1
+    m_ConditionEvent: move
     m_EventTreshold: 0
-  - m_ConditionMode: 4
-    m_ConditionEvent: Speed
-    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6877856549508658510}
   m_Solo: 0
