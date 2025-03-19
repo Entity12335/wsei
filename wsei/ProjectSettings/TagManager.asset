@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
+  - camChange
+  - NYG
+  - popup
+  - NGYR
+  - camChange2
   layers:
   - Default
   - TransparentFX

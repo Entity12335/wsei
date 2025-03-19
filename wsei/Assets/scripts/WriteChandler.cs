@@ -1,3 +1,4 @@
+using Platformer;
 using System;
 using System.Collections;
 using TMPro;
@@ -5,19 +6,20 @@ using UnityEngine;
 
 public class WriteChandler : MonoBehaviour
 {
+    public GameObject Player;
     public GameObject textBack;
     public TMP_Text TMP;
     public string[] text;
-    public float typingSpeed = 100f;
+    public float typingSpeed = 0.05f;
 
     private string temp;
     private string fullText;
     private bool start = false;
     private string currentT = "";
     private bool interupt = false;
-    private string[] TT = { "kkkkk", "ooooo" };
     private bool ready = true;
     private Coroutine coroutine;
+    private int hell = 0;
 
 
     private void Start()
@@ -27,18 +29,6 @@ public class WriteChandler : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartCoroutine(StartTyping(TT));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            interupt = true;
-            TMP.text = fullText;
-            StopCoroutine(coroutine);
-            ready = true;
-        }
 
     }
     
@@ -59,11 +49,13 @@ public class WriteChandler : MonoBehaviour
             //    StopCoroutine(coroutine);
             //    ready = true;
             //}
-            Debug.Log("stoper");
+            //Debug.Log("stoper");
 
             yield return new WaitUntil(()=>(Input.GetKeyDown(KeyCode.Space)));
 
         }
+        textBack.SetActive(false);
+        Player.GetComponent<PlayerController>().enabled = true;
     }
 
     private IEnumerator TypeText()
@@ -78,4 +70,16 @@ public class WriteChandler : MonoBehaviour
         }
         ready = true;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player" && hell<1)
+        {
+            StartCoroutine(StartTyping(text));
+            textBack.SetActive(true);
+            Player.GetComponent<PlayerController>().enabled = false;
+            hell++;
+        }
+    }
+
 }

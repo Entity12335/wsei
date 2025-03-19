@@ -18,7 +18,7 @@ namespace Platformer
 
         void Start()
         {
-            playerController = playerGameObject.GetComponent<PlayerController>();
+            //playerController = playerGameObject.GetComponent<PlayerController>();
         }
 
         void Update()
@@ -32,14 +32,14 @@ namespace Platformer
             //    playerController.deathState = false;
             //    Invoke("ReloadLevel", 3);
             //}else if (playerController.isOverLadder)
-            if (playerController.isOverLadder)
-            {
-                playerController.GetComponent<Rigidbody2D>().gravityScale = 0;
-            }
-            else
-            {
-                playerController.GetComponent<Rigidbody2D>().gravityScale = 3;
-            }
+            //if (playerController.isOverLadder)
+            //{
+            //    playerController.GetComponent<Rigidbody2D>().gravityScale = 0;
+            //}
+            //else
+            //{
+            //    playerController.GetComponent<Rigidbody2D>().gravityScale = 3;
+            //}
 
         }
 

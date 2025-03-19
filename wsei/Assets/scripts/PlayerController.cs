@@ -8,7 +8,7 @@ namespace Platformer
     {
         public float movingSpeed;
         public float jumpForce;
-        public GameObject GM;
+        //public GameObject GM;
         private float moveInput;
 
         private bool facingRight = false;
@@ -20,6 +20,9 @@ namespace Platformer
         public bool isOverLadder = false;
         public bool isOverKCH = false;
         public bool isOverc1 = false;
+        public bool popup = false;
+        public bool NYGR = false;
+        public bool isOverc2 = false;
         public Transform groundCheck;
         [SerializeField] private string groundTag = "Ground"; //Tag pod³ogi
 
@@ -32,22 +35,24 @@ namespace Platformer
         {
             rigidbody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
-            gameManager = GM.GetComponent<GameManager>();
+            //gameManager = GM.GetComponent<GameManager>();
         }
 
         void Update()
         {
+ 
             if (Input.GetButton("Horizontal"))
             {
                 moveInput = Input.GetAxis("Horizontal");
                 Vector3 direction = transform.right * moveInput;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, movingSpeed * Time.deltaTime);
-                animator.SetTrigger("move"); // Turn on run animation
+                animator.SetBool("isMoving", true); // Turn on run animation
 
             }
             else
             {
-                animator.ResetTrigger("move"); // Turn on idle animation
+                animator.SetBool("isMoving", false);
+
             }
             if (Input.GetButton("Vertical") && isOverLadder)
             {
@@ -69,11 +74,11 @@ namespace Platformer
                 {
                     //animator.ResetTrigger("jump");
                 }
-                if (facingRight == false && moveInput > 0)
+                if (facingRight == true && moveInput > 0)
                 {
                     Flip();
                 }
-                else if (facingRight == true && moveInput < 0)
+                else if (facingRight == false && moveInput < 0)
                 {
                     Flip();
                 }
@@ -121,13 +126,25 @@ namespace Platformer
             {
                 isOverTrigerNYG = true;
             }
-            else if (other.CompareTag("keycholder"))
-            {
-                isOverKCH = true;
-            }
+            //else if (other.CompareTag("keycholder"))
+            //{
+            //    isOverKCH = true;
+            //}
             else if (other.CompareTag("camChange"))
             {
                 isOverc1 = true;
+            }
+            else if (other.CompareTag("popup"))
+            {
+                popup = true;
+            }
+            else if (other.CompareTag("NGYR"))
+            {
+                NYGR = true;
+            }
+            else if (other.CompareTag("camChange2"))
+            {
+                isOverc2 = true;
             }
         }
         private void OnTriggerExit2D(Collider2D other)
@@ -149,6 +166,18 @@ namespace Platformer
             else if (other.CompareTag("camChange"))
             {
                 isOverc1 = false;
+            }
+            else if (other.CompareTag("popup"))
+            {
+                popup = false;
+            }
+            else if (other.CompareTag("NGYR"))
+            {
+                NYGR = false;
+            }
+            else if (other.CompareTag("camChange2"))
+            {
+                isOverc2 = false;
             }
 
         }
